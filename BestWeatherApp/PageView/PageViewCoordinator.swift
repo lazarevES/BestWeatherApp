@@ -29,8 +29,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
             self.status = .geoReject
         }
         
-        print(locationManager.authorizationStatus.rawValue)
-        
         self.dataBaseCoordinator = CoreDataCoordinator.CreateDataBase()
         self.networkService = NetworkService()
         
@@ -39,7 +37,7 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
     }
-    
+        
     func GetGeoStatus() {
         
         switch status {
@@ -55,14 +53,12 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
                         || self.locationManager.authorizationStatus == .notDetermined {
                         self.status = .geoReject
                     }
-                    print(self.locationManager.authorizationStatus.rawValue)
                 }
             }
             onBoarding.coordinator = self
             pageViews?.navigationController?.present(onBoarding, animated: true)
             
         case .geoReject:
-            print(self.locationManager.authorizationStatus.rawValue)
             return
         case .geoAccept:
             locationManager.startUpdatingLocation()
@@ -78,6 +74,7 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
             self.status = .onBoard
         } else {
             self.status = .geoAccept
+            GetGeoStatus()
         }
     }
     
@@ -86,123 +83,141 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
             return
         }
         
-        do {
-            let coordinates = locations[0]
-            locationManager.stopUpdatingLocation()
-            foundCityData(location: coordinates)
-        }  catch {
-            return
+        let coordinates = locations[0]
+        locationManager.stopUpdatingLocation()
+        DispatchQueue.global().async {
+            self.foundCityData(location: coordinates)
         }
     }
     
     func loadingViewControllers() {
-        
-        if status == .onBoard {
-            return
+                
+        let task = DispatchQueue.global(qos: .background)
+        task.async {
+            print("Начата загрузка из бд")
+            self.dataBaseCoordinator.fetchAll { result in
+                switch result {
+                case .success(let CitysM):
+                    
+                    print("Загружено из бд")
+                    let citys = CitysM.map { city -> City in
+                        city.isNew = false
+                        return city
+                    }
+                    
+                    if citys.isEmpty {
+                        break
+                    }
+                   
+                    if let pageViews = self.pageViews {
+                        citys.forEach { city in
+                            
+                            if !pageViews.citys.contains(city) {
+                                pageViews.citys.append(city)
+                            }
+                        }
+                        pageViews.activeViewController(citys.first!)
+                    }
+    
+                case .failure(_):
+                    break
+                }
+                print("Начато обновление гео статуса")
+                self.GetGeoStatus()
+            }
         }
         
-        print("грузим контроллеры")
+        task.resume()
     }
     
     func foundCityData(location: CLLocation) {
         
-        let stringURL = "https://geocode-maps.yandex.ru/1.x?apikey=1c2c0a14-73c0-4a9f-a447-0bf7be0dfb59&format=json&geocode=" + String(location.coordinate.longitude) + "," + String(location.coordinate.latitude)
-        let url = URL(string: stringURL)
-        if let url = url {
-            networkService.request(url: url) { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let data):
-                    do {
-                        let dictionary = try JSONSerialization.jsonObject(with: data, options: []) as! Dictionary<String, Any>
-                        self.parseCityByCoordinates(dictionary)
-                        
-                    } catch let error {
-                        if let error = error as? NetworkError {
-                            print(error.localizedDescription)
-                        } else {
-                            print("Не известная ошибка")
-                        }
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    break
-                    
-                }
+        networkService.request(location: location) {[weak self] result in
+            switch result {
+            case .success(let city):
+                print("Город найден")
+                self?.addCityToPageView(city)
+            case .failure(let error):
+                print(error)
             }
         }
     }
     
-    func parseCityByCoordinates(_ dictionary: [String: Any]) {
-        guard let response = dictionary["response"] as? [String: Any] else { return }
-        guard let geoObjectCollection = response["GeoObjectCollection"] as? [String: Any] else { return }
-        guard let featureMember = geoObjectCollection["featureMember"] as? [[String: Any]] else { return }
-        guard let geoObject = featureMember[0]["GeoObject"] as? [String: Any] else { return }
-        guard let metaDataProperty = geoObject["metaDataProperty"] as? [String: Any] else { return }
-        guard let geocoderMetaData = metaDataProperty["GeocoderMetaData"] as? [String: Any] else { return }
-        guard let addressDetails = geocoderMetaData["AddressDetails"] as? [String: Any] else { return }
-        guard let country = addressDetails["Country"] as? [String: Any] else { return }
-        guard let administrativeArea = country["AdministrativeArea"] as? [String: Any]  else { return }
-        guard let subAdministrativeArea = administrativeArea["SubAdministrativeArea"] as? [String: Any]  else { return }
-        guard let locality = subAdministrativeArea["Locality"] as? [String: Any]  else { return }
-        guard let Point = geoObject["Point"] as? [String: Any]  else { return }
-        
-        
-        guard let localityName = locality["LocalityName"] as? String  else { return }
-        guard let countryName = country["CountryName"] as? String else { return }
-        guard let Pos = Point["pos"] as? String  else { return }
-        
-        let PosArr = Pos.components(separatedBy: " ")
-        
-        let lon = PosArr[0]
-        let lat = PosArr[1]
-        
-        let city = City(name: localityName, description: countryName, lat: lat, lon: lon)
-        
+    func addCityToPageView(_ city: City) {
+    
         if let pageViews = self.pageViews {
-            if pageViews.city.contains(city) {
+            
+            if pageViews.citys.contains(city) {
+                city.isNew = false
+                print("Город уже есть")
+                
+                DispatchQueue.main.async {
+                    let vs = pageViews.viewControllers?.first as? ViewControllerProtocol
+                    if let vs = vs {
+                        if vs.city != city && vs.isAppear {
+                            pageViews.activeViewController(city)
+                        }
+                    }
+                }
+            } else if pageViews.citys.count == 0 {
+                pageViews.citys.append(city)
                 DispatchQueue.main.async {
                     pageViews.activeViewController(city)
                 }
             } else {
-                self.downloadingWheatherData(city: city)
+                pageViews.citys.append(city)
             }
+            self.downloadingWheatherData(city: city)
         }
     }
     
     func downloadingWheatherData(city: City) {
-        
-        let stringURL = "https://api.weather.yandex.ru/v2/forecast?lat=" + city.lat + "&lon=" + city.lon + "&extra=true"
-        let url = URL(string: stringURL)
-        if let url = url {
-            var request = URLRequest(url: url)
-            request.addValue("f8652bbe-960b-4bf2-ad2d-caee5f61c5c0", forHTTPHeaderField: "X-Yandex-API-Key")
-            networkService.request(request: request) { [weak self, city]  result in
-                guard let self = self else { return }
-                
+        print("Начата загрузка погоды")
+        networkService.request(city: city) {[weak self] result in
+            switch result {
+            case .success(let city):
+                print("Погода загружена")
+                self?.saveToDataBase(city: city)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func saveToDataBase(city: City) {
+        if city.isNew {
+            dataBaseCoordinator.create(city) { [weak self] result in
                 switch result {
-                case .success(let data):
-                    do {
-                        let decoder = JSONDecoder()
-                        let decodeData = try decoder.decode(Wheather.self, from: data)
-                        self.saveWheather(city: city, wheather: decodeData)
-                    } catch let error {
-                        print(error.localizedDescription)
-                    }
+                case .success(let city):
+                    city.isNew.toggle()
+                    self?.pageViews?.updateCity(city)
+                    print("Сохранено в бд")
                 case .failure(let error):
-                    print(error.localizedDescription)
-                    break
-                    
+                    print("\(error.localizedDescription)")
+                }
+            }
+        } else {
+            let predicate = NSPredicate(format: "id == %@", argumentArray: [city.id])
+            dataBaseCoordinator.update(city, predicate: predicate) { [weak self] result in
+                switch result {
+                case .success(let city):
+                    self?.pageViews?.updateCity(city)
+                case .failure(let error):
+                    print(error)
                 }
             }
         }
     }
     
-    func saveWheather(city: City, wheather: Wheather) {
-        
-        //День 1 тут я заебался!
-        
+    func getViewController(city: City?, index: Int) -> ViewControllerProtocol{
+        if let city = city {
+            let vc = WheatherViewController()
+            vc.setupCity(city: city, index: index)
+            vc.delegate = self
+            return vc
+        } else {
+            return EmptyViewController()
+        }
     }
 }
 

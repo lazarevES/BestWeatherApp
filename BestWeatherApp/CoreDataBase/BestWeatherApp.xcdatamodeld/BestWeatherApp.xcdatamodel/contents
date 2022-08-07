@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CityDBModel" representedClassName="CityDBModel" syncable="YES" codeGenerationType="class">
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="lat" optional="YES" attributeType="String"/>
+        <attribute name="lon" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Fact" representedClassName="Fact" syncable="YES" codeGenerationType="class">
+        <attribute name="cloudnessKey" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="condition" optional="YES" attributeType="String"/>
+        <attribute name="daytimeKey" optional="YES" attributeType="String"/>
+        <attribute name="feelsLike" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="humidity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isThunder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="obsTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="polar" optional="YES" attributeType="Boolean" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="precStrengthKey" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="precTypeKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="pressure" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="seasonKey" optional="YES" attributeType="String"/>
+        <attribute name="temp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="windDirKey" optional="YES" attributeType="String"/>
+        <attribute name="windGust" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="windSpeed" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="wheather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Wheater" inverseName="wheather" inverseEntity="Wheater"/>
+    </entity>
+    <entity name="Wheater" representedClassName="Wheater" syncable="YES" codeGenerationType="class">
+        <attribute name="fact" optional="YES"/>
+        <attribute name="forecasts" optional="YES"/>
+        <relationship name="wheather" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Fact" inverseName="wheather" inverseEntity="Fact"/>
+    </entity>
+    <elements>
+        <element name="CityDBModel" positionX="19.965576171875" positionY="-129.5230102539062" width="128" height="89"/>
+        <element name="Wheater" positionX="-132.3206176757812" positionY="-568.7733154296875" width="128" height="88"/>
+        <element name="Fact" positionX="-541.406494140625" positionY="-455.0766296386719" width="128" height="298"/>
+    </elements>
+</model>

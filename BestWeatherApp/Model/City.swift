@@ -7,39 +7,63 @@
 
 import Foundation
 
-class City: Equatable{
+protocol Storable {
+    var keyedValues: [String: Any] { get }
+}
+
+class City: Storable {
     
+    var id: String
     var name: String
-    var description: String
+    var country: String
     var lat: String
     var lon: String
+    var isNew: Bool = true
+    var wheather: Wheather? {
+        didSet {
+            if let wheather = wheather {
+                wheather.setupParent(self)
+            }
+        }
+    }
     
     var keyedValues: [String: Any] {
         return [
+            "id": self.id,
             "name": self.name,
-            "description": self.description,
+            "country": self.country,
             "lat": self.lat,
-            "lon": self.lon
+            "lon": self.lon,
         ]
     }
     
-    public init(name: String, description: String, lat: String, lon: String) {
+    init(id: String, name: String, country: String, lat: String, lon: String) {
         self.name = name
-        self.description = description
+        self.country = country
         self.lat = lat
         self.lon = lon
+        self.id = id == "" ? name + "_" + country : id
     }
     
-    init(cityDBModel: CityDBModel) {
-        self.name = cityDBModel.name!
-        self.description = cityDBModel.country!
-        self.lat = cityDBModel.lat!
-        self.lon = cityDBModel.lon!
+    init(_ city: CityModel) {
+        self.name = city.name ?? ""
+        self.country = city.country ?? ""
+        self.lat = city.lat ?? ""
+        self.lon = city.lon ?? ""
+        self.id = city.id ?? ""
+        self.id = self.id == "" ? self.name + "_" + self.country : self.id
+        
+        if let wheather = city.wheather {
+            self.wheather = Wheather(wheather)
+        }
+        
+        self.wheather?.setupParent(self)
     }
-    
-    static func ==(lhs: City, rhs: City) -> Bool {
-        return lhs.name == rhs.name && lhs.description == rhs.description
+}
+
+extension City: Equatable {
+    static func == (lhs: City, rhs: City) -> Bool {
+        lhs.id == rhs.id
     }
-    
 }
 
