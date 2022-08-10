@@ -2,8 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Разрешить использовать геолокацию</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>yandex.ru</key>
+			<string>yandex.ru</string>
+			<key>geocode-maps.yandex.ru</key>
+			<string></string>
+		</dict>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik.ttf</string>

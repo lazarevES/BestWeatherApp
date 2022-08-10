@@ -121,3 +121,40 @@ extension UIAlertController {
     }
 }
 
+extension UILabel {
+    static func getlabel(_ size: CGFloat = 16,
+                         _ textAlignment: NSTextAlignment = .center,
+                         _ color: UIColor = .black,
+                         _ text: String = "",
+                         _ toAutoLayot: Bool = true) -> UILabel {
+        let label = UILabel()
+        if toAutoLayot{
+            label.toAutoLayout()
+        }
+        label.textAlignment = textAlignment
+        label.textColor = color
+        label.text = text
+        label.font = UIFont.fontRubik(size)
+        return label
+    }
+}
+
+extension UIImageView {
+    
+    static func getImage(_ name: String, toAutoLayot: Bool = true) -> UIImageView {
+        
+        let image: UIImageView
+        if name.isEmpty {
+            image = UIImageView()
+        } else {
+            image = UIImageView(image: UIImage(named: name))
+        }
+        
+        if toAutoLayot{
+            image.toAutoLayout()
+        }
+        return image
+    }
+    
+}
+

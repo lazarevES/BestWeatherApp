@@ -12,12 +12,15 @@ struct ConstValue {
     
     static let backgroundColor = UIColor(hex: "#204EC7")
     static let backgroundColorLight = UIColor(hex: "#E9EEFA")
+    static let yelowColor = UIColor(hex: "F6DD01")
     static let toLongIndent: CGFloat = 40
     static let longIndent: CGFloat = 30
     static let indent: CGFloat = 20
     static let smallindent: CGFloat = 10
     static let leading: CGFloat = 18
     static let trailing: CGFloat = -18
+    static let longLeading: CGFloat = 25
+    static let longTrailing: CGFloat = -25
     static let hourHeight: CGFloat = 90
     static let hourWidth: CGFloat = 45
     static let hourCornerRadius: CGFloat = 20
