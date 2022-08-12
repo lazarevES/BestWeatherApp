@@ -94,12 +94,7 @@ class WheatherViewController: UIViewController, ViewControllerProtocol {
         dateFormatterDayMounth.dateFormat = "dd/MM"
         
         let dateFormatterHour = DateFormatter()
-        
-        if Settings.sharedSettings.time == .partial {
-            dateFormatterHour.dateFormat = "hh a"
-        } else {
-            dateFormatterHour.dateFormat = "HH"
-        }
+        dateFormatterHour.dateFormat = "HH"
         
         let myCalendar = Calendar(identifier: .gregorian)
         let weekDay = myCalendar.component(.weekday, from: Date())

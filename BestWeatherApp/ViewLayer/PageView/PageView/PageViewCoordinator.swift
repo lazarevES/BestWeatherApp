@@ -186,6 +186,7 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
                 self?.saveToDataBase(city: city)
             case .failure(let error):
                 print(error)
+                self?.pageViews?.updateCity(city)
             }
         }
     }
