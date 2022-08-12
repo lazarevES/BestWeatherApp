@@ -71,7 +71,7 @@ class WheatherToDayInfoCell: UITableViewCell {
             sunriseLabel.topAnchor.constraint(equalTo: sunriseImage.bottomAnchor, constant: 5),
             sunriseLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             sunriseLabel.heightAnchor.constraint(equalToConstant: 20),
-            sunriseLabel.widthAnchor.constraint(equalToConstant: 40),
+            sunriseLabel.widthAnchor.constraint(equalToConstant: 60),
            
             sunsetImage.topAnchor.constraint(equalTo: ellipseImage.bottomAnchor, constant: 5),
             sunsetImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: ConstValue.trailing),
@@ -81,11 +81,11 @@ class WheatherToDayInfoCell: UITableViewCell {
             sunsetLabel.topAnchor.constraint(equalTo: sunriseImage.bottomAnchor, constant: 5),
             sunsetLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             sunsetLabel.heightAnchor.constraint(equalToConstant: 20),
-            sunsetLabel.widthAnchor.constraint(equalToConstant: 40),
+            sunsetLabel.widthAnchor.constraint(equalToConstant: 60),
             
             temp.topAnchor.constraint(equalTo: ellipseImage.topAnchor, constant: 15),
             temp.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            temp.widthAnchor.constraint(equalToConstant: 60),
+            temp.widthAnchor.constraint(equalToConstant: 100),
             
             factTemp.topAnchor.constraint(equalTo: temp.bottomAnchor, constant: 5),
             factTemp.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -96,14 +96,14 @@ class WheatherToDayInfoCell: UITableViewCell {
             conditionLabel.trailingAnchor.constraint(equalTo: ellipseImage.trailingAnchor, constant: ConstValue.trailing),
             
             cloudnessImage.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 5),
-            cloudnessImage.leadingAnchor.constraint(equalTo: ellipseImage.leadingAnchor, constant: 45),
+            cloudnessImage.leadingAnchor.constraint(equalTo: ellipseImage.leadingAnchor, constant: 40),
             cloudnessImage.heightAnchor.constraint(equalToConstant: 20),
             cloudnessImage.widthAnchor.constraint(equalToConstant: 20),
             
             cloudinessLabel.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 5),
             cloudinessLabel.leadingAnchor.constraint(equalTo: cloudnessImage.trailingAnchor, constant: 5),
             cloudinessLabel.heightAnchor.constraint(equalToConstant: 20),
-            cloudinessLabel.widthAnchor.constraint(equalToConstant: 45),
+            cloudinessLabel.widthAnchor.constraint(equalToConstant: 50),
             
             windSpeedImage.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 5),
             windSpeedImage.leadingAnchor.constraint(equalTo: cloudinessLabel.trailingAnchor, constant: 10),
@@ -113,17 +113,17 @@ class WheatherToDayInfoCell: UITableViewCell {
             windSpeedLabel.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 5),
             windSpeedLabel.leadingAnchor.constraint(equalTo: windSpeedImage.trailingAnchor, constant: 5),
             windSpeedLabel.heightAnchor.constraint(equalToConstant: 20),
-            windSpeedLabel.widthAnchor.constraint(equalToConstant: 45),
+            windSpeedLabel.widthAnchor.constraint(equalToConstant: 60),
             
             humidityImage.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 5),
             humidityImage.leadingAnchor.constraint(equalTo: windSpeedLabel.trailingAnchor, constant: 10),
             humidityImage.heightAnchor.constraint(equalToConstant: 20),
-            humidityImage.widthAnchor.constraint(equalToConstant: 20),
+            humidityImage.widthAnchor.constraint(equalToConstant: 15),
             
             humidityLabel.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor, constant: 5),
             humidityLabel.leadingAnchor.constraint(equalTo: humidityImage.trailingAnchor, constant: 5),
             humidityLabel.heightAnchor.constraint(equalToConstant: 20),
-            humidityLabel.widthAnchor.constraint(equalToConstant: 45),
+            humidityLabel.widthAnchor.constraint(equalToConstant: 50),
             
             timeLabel.topAnchor.constraint(equalTo: windSpeedLabel.bottomAnchor, constant: 10),
             timeLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
@@ -137,13 +137,13 @@ class WheatherToDayInfoCell: UITableViewCell {
     }
     
     func setupContent(fact: Fact, forecast: Forecast) {
-        sunriseLabel.text = forecast.sunrise
-        sunsetLabel.text = forecast.sunset
-        temp.text = String(forecast.dayForecast!.tempMin) + "º/" + String(forecast.dayForecast!.temp) + "º"
-        factTemp.text = String(fact.temp) + "º"
+        sunriseLabel.text = forecast.sunriseString
+        sunsetLabel.text = forecast.sunsetString
+        temp.text = String(forecast.dayForecast!.tempMinString) + "/" + String(forecast.dayForecast!.tempString)
+        factTemp.text = fact.tempString
         conditionLabel.text = fact.wheatherIcon.rawValue
         cloudinessLabel.text = String(fact.cloudnessKey * 100) + "%"
-        windSpeedLabel.text = String(Int(fact.windSpeed)) + " m\\c"
+        windSpeedLabel.text = fact.windSpeedString
         humidityLabel.text = String(fact.humidity) + "%"
         timeLabel.text = getTodayDateString()
         
@@ -152,7 +152,11 @@ class WheatherToDayInfoCell: UITableViewCell {
     private func getTodayDateString() -> String {
         let todayDate = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        if Settings.sharedSettings.time == .full {
+            dateFormatter.dateFormat = "HH:mm"
+        } else {
+            dateFormatter.dateFormat = "hh:mm a"
+        }
         let myCalendar = Calendar(identifier: .gregorian)
         let weekDay = myCalendar.component(.weekday, from: todayDate)
         var stringDate = "" //dd MMMM

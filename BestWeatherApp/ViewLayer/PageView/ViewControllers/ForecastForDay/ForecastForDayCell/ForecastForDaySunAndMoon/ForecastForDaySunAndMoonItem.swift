@@ -50,17 +50,27 @@ class ForecastForDaySunAndMoonItem: UICollectionViewCell {
     
     func setupContent(sunrise: String, sunset: String, sun: Bool) {
         self.time = getTime(sunrise: sunrise, sunset: sunset)
-        self.sunset = sunset
-        self.sunrise = sunrise
+        self.sunset = checkSettings(sunset)
+        self.sunrise = checkSettings(sunrise)
         self.sun = sun
         tableView.reloadData()
+    }
+    
+    func checkSettings(_ str: String) -> String {
+        if Settings.sharedSettings.time == .full {
+            return str
+        } else {
+            let timeArr = str.components(separatedBy: ":")
+            let hour = Int(timeArr[0]) ?? 0
+            let minute = timeArr[1]
+            return String(hour > 12 ? hour - 12 : hour) + ":" + minute + " p.m."
+        }
     }
     
     private func getTime(sunrise: String, sunset: String) -> String {
         
         let dateString = "2022-01-01 " + sunrise + ":00 +0000"
         let dateString2 = "2022-01-01 " + sunset + ":05 +0000"
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
         

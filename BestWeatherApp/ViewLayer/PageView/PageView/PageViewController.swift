@@ -13,6 +13,16 @@ final class PageViewController: UIPageViewController {
     let coordinator: PageViewCoordinator
     var isAppear: Bool = false
     var citys = [City]()
+    var globalViewController: GlobalViewController?
+    lazy var pageControl: UIPageControl = {
+        let control = UIPageControl()
+        control.toAutoLayout()
+        control.currentPage = 1
+        control.numberOfPages = 1
+        control.pageIndicatorTintColor = .lightGray
+        control.currentPageIndicatorTintColor = .darkGray
+        return control
+    }()
     
     init() {
         self.coordinator = PageViewCoordinator()
@@ -25,6 +35,9 @@ final class PageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        view.addSubviews(pageControl)
+        
         navigationItem.largeTitleDisplayMode = .always
         setViewControllers([coordinator.getViewController(city: citys.first, index: 0)], direction: .forward, animated: true)
         
@@ -33,14 +46,19 @@ final class PageViewController: UIPageViewController {
                                          style: .plain,
                                          target: self,
                                          action: #selector(openSettings))
-        self.navigationItem.leftBarButtonItem  = leftButton
+        globalViewController?.navigationItem.leftBarButtonItem  = leftButton
         
         let rightButton = UIBarButtonItem(image: UIImage(named: "geo"),
                                           landscapeImagePhone: UIImage(named: "geo"),
                                           style: .plain,
                                           target: self,
                                           action: #selector(foundCity))
-        self.navigationItem.rightBarButtonItem  = rightButton
+        globalViewController?.navigationItem.rightBarButtonItem  = rightButton
+        NSLayoutConstraint.activate([
+            pageControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pageControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            pageControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30)
+        ])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -60,14 +78,17 @@ final class PageViewController: UIPageViewController {
     func activeViewController(_ city: City) {
         let index = citys.firstIndex(of: city)
         
+        pageControl.numberOfPages = citys.count
+        
         if let index = index {
-            title = city.name + " / " + city.country
+            parent?.title = city.name + ", " + city.country
             setViewControllers([coordinator.getViewController(city: city, index: index)], direction: .forward, animated: true)
+            pageControl.currentPage = index
         }
     }
     
     @objc func openSettings() {
-        
+        globalViewController?.toggleMenu()
     }
     
     @objc func foundCity() {
@@ -126,12 +147,11 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         return self.coordinator.getViewController(city: citys[index], index: index)
     }
     
-
-    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        let vc = pendingViewControllers.first as? ViewControllerProtocol
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        let vc = viewControllers?.first as? WheatherViewController
         if let vc = vc {
-            let city = citys[vc.index]
-            title = city.name + " / " + city.country
+            parent?.title = citys[vc.index].name + ", " + citys[vc.index].country
+            pageControl.currentPage = vc.index
         }
     }
     

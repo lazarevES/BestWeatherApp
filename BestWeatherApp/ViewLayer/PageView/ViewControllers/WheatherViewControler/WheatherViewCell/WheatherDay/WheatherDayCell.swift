@@ -21,7 +21,12 @@ class WheatherDayCell: UITableViewCell {
     
     private lazy var dayLabel: UILabel = UILabel.getlabel(16, .left, .lightGray, "", true)
     private lazy var humidityLabel: UILabel = UILabel.getlabel(12, .left, ConstValue.backgroundColor, "", true)
-    private lazy var conditionLabel: UILabel = UILabel.getlabel(16, .left, .black, "", true)
+    private lazy var conditionLabel: UILabel = {
+        let label = UILabel.getlabel(16, .left, .black, "", true)
+        label.numberOfLines = 0
+        return label
+    }()
+
     private lazy var tempLabel: UILabel = UILabel.getlabel(18, .left, .black, "", true)
     private lazy var image: UIImageView = UIImageView.getImage("")
     
@@ -42,7 +47,7 @@ class WheatherDayCell: UITableViewCell {
     }
     
     private func useConstraint() {
-        NSLayoutConstraint.activate([dayLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+        NSLayoutConstraint.activate([dayLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
                                      dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
                                      dayLabel.widthAnchor.constraint(equalToConstant: 60),
                                      image.topAnchor.constraint(equalTo: dayLabel.bottomAnchor, constant: 5),
@@ -54,11 +59,11 @@ class WheatherDayCell: UITableViewCell {
                                      humidityLabel.topAnchor.constraint(equalTo: dayLabel.bottomAnchor, constant: 5),
                                      humidityLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
                                      conditionLabel.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 3),
-                                     conditionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-                                     conditionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-                                     conditionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -90),
+                                     conditionLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                                     conditionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+                                     conditionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -100),
                                      tempLabel.leadingAnchor.constraint(equalTo: conditionLabel.trailingAnchor, constant: 3),
-                                     tempLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25),
+                                     tempLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
                                      tempLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 17),
                                      tempLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -17)])
         
@@ -73,7 +78,7 @@ class WheatherDayCell: UITableViewCell {
             self.image.image = dayForecast.wheatherIcon.getImage()
             self.humidityLabel.text = String(dayForecast.humidity) + "%"
             self.conditionLabel.text = dayForecast.wheatherIcon.rawValue
-            self.tempLabel.text = String(nightForecast.temp) + " - " + String(dayForecast.temp)
+            self.tempLabel.text = nightForecast.tempString + " - " + dayForecast.tempString
         }
     }
     

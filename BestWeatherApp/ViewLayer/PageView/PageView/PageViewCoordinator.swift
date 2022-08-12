@@ -43,10 +43,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
         switch status {
         case .onBoard:
             
-            if !pageViews!.isAppear {
-                break
-            }
-            
             let onBoarding = OnBoardingViewController() { [weak self] in
                 if let self = self {
                     if self.locationManager.authorizationStatus == .denied
@@ -99,12 +95,10 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
                 
         let task = DispatchQueue.global(qos: .background)
         task.async {
-            print("Начата загрузка из бд")
             self.dataBaseCoordinator.fetchAll { result in
                 switch result {
                 case .success(let CitysM):
                     
-                    print("Загружено из бд")
                     let citys = CitysM.map { city -> City in
                         city.isNew = false
                         return city
@@ -127,7 +121,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
                 case .failure(_):
                     break
                 }
-                print("Начато обновление гео статуса")
                 self.GetGeoStatus()
             }
         }
@@ -140,7 +133,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
         networkService.request(location: location) {[weak self] result in
             switch result {
             case .success(let city):
-                print("Город найден")
                 self?.addCityToPageView(city)
             case .failure(let error):
                 print(error)
@@ -153,7 +145,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
         networkService.request(name: name, completion: { result in
             switch result {
             case .success(let citys):
-                print("Города найдены")
                 DispatchQueue.main.async {
                     callback(citys)
                 }
@@ -169,7 +160,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
             
             if pageViews.citys.contains(city) {
                 city.isNew = false
-                print("Город уже есть")
                 
                 DispatchQueue.main.async {
                     let vs = pageViews.viewControllers?.first as? ViewControllerProtocol
@@ -190,11 +180,9 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
     }
     
     func downloadingWheatherData(city: City) {
-        print("Начата загрузка погоды")
         networkService.request(city: city) {[weak self] result in
             switch result {
             case .success(let city):
-                print("Погода загружена")
                 self?.saveToDataBase(city: city)
             case .failure(let error):
                 print(error)
@@ -211,7 +199,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
                     DispatchQueue.main.async {
                         self?.pageViews?.updateCity(city)
                     }
-                    print("Сохранено в бд")
                 case .failure(let error):
                     print("\(error.localizedDescription)")
                 }
@@ -224,7 +211,6 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
                     DispatchQueue.main.async {
                         self?.pageViews?.updateCity(city)
                     }
-                    print("Обновлено в бд")
                 case .failure(let error):
                     print(error)
                 }
@@ -240,6 +226,18 @@ final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
             return vc
         } else {
             return EmptyViewController()
+        }
+    }
+    
+    func removeFromDatabase(city: City) {
+        let predicate = NSPredicate(format: "id == %@", argumentArray: [city.id])
+        dataBaseCoordinator.delete(predicate: predicate) { result in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            default:
+                break
+            }
         }
     }
 }

@@ -120,10 +120,10 @@ class DetailsHourCell: UITableViewCell {
     func setupContent(forecast: (date: String, hour: Hour)) {
         
         dateLabel.text = forecast.date
-        timeLabel.text = (forecast.hour.hour.count == 1 ? "0" + forecast.hour.hour : forecast.hour.hour) + ".00"
-        tempLabel.text = String(forecast.hour.temp) + "º"
+        timeLabel.text = forecast.hour.hourString
+        tempLabel.text = forecast.hour.tempString
         conditionLabel.text = forecast.hour.wheatherIcon.rawValue
-        windDataLabel.text = String(Int(forecast.hour.windSpeed)) + " m/s " + forecast.hour.windDir.rawValue
+        windDataLabel.text = forecast.hour.windSpeedString + " " + forecast.hour.windDir.rawValue
         precDataLabel.text = forecast.hour.precStrenght.rawValue
         cloudnessDataLabel.text = forecast.hour.cloudness.rawValue
     }

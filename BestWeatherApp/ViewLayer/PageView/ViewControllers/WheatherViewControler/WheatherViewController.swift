@@ -40,8 +40,8 @@ class WheatherViewController: UIViewController, ViewControllerProtocol {
         
         NSLayoutConstraint.activate([tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                                      tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-                                     tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-                                     tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)])
+                                     tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+                                     tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5)])
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -94,7 +94,12 @@ class WheatherViewController: UIViewController, ViewControllerProtocol {
         dateFormatterDayMounth.dateFormat = "dd/MM"
         
         let dateFormatterHour = DateFormatter()
-        dateFormatterHour.dateFormat = "HH"
+        
+        if Settings.sharedSettings.time == .partial {
+            dateFormatterHour.dateFormat = "hh a"
+        } else {
+            dateFormatterHour.dateFormat = "HH"
+        }
         
         let myCalendar = Calendar(identifier: .gregorian)
         let weekDay = myCalendar.component(.weekday, from: Date())

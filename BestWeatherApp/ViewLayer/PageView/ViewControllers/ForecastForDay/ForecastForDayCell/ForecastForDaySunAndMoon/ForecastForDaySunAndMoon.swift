@@ -106,7 +106,7 @@ extension ForecastForDaySunAndMoon: UICollectionViewDataSource, UICollectionView
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ForecastForDaySunAndMoonItem.identifire, for: indexPath) as! ForecastForDaySunAndMoonItem
             
             if let forecast = forecast {
-                cell.setupContent(sunrise: forecast.sunset, sunset: forecast.sunrise, sun: false)
+                cell.setupContent(sunrise: forecast.sunrise, sunset: forecast.sunset, sun: false)
             }
             return cell
         } else {

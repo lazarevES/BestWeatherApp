@@ -14,9 +14,9 @@ class WheatherToDayHourItem: UICollectionViewCell {
     private var hour: Hour? {
         didSet {
             if let hour = hour {
-                timeLabel.text = hour.hour.count == 1 ? "0" + hour.hour + ".00" : hour.hour + ".00"
+                timeLabel.text = hour.hourString
                 image.image = hour.wheatherIcon.getImage()
-                tempLabel.text = String(hour.temp) + "º"
+                tempLabel.text = String(hour.tempString)
             }
         }
     }

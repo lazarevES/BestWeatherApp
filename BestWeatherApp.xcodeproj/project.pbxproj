@@ -16,6 +16,12 @@
 		4704005F289D994B002C95A4 /* FactModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47040055289D994B002C95A4 /* FactModel+CoreDataProperties.swift */; };
 		47040060289D994B002C95A4 /* CityModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47040056289D994B002C95A4 /* CityModel+CoreDataClass.swift */; };
 		47040061289D994B002C95A4 /* CityModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47040057289D994B002C95A4 /* CityModel+CoreDataProperties.swift */; };
+		4713D86228A5520E0019A083 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713D86128A5520E0019A083 /* Settings.swift */; };
+		4713D86428A563740019A083 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713D86328A563740019A083 /* SettingsView.swift */; };
+		4713D86728A566620019A083 /* SettingsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713D86628A566620019A083 /* SettingsViewCell.swift */; };
+		4713D86928A56B910019A083 /* GlobalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713D86828A56B910019A083 /* GlobalViewController.swift */; };
+		4713D86B28A60BBE0019A083 /* SetSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713D86A28A60BBE0019A083 /* SetSettingsController.swift */; };
+		4713D86E28A63E7A0019A083 /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4713D86D28A63E7A0019A083 /* PreviewController.swift */; };
 		474713F228992A9200C517EE /* ViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474713F128992A9200C517EE /* ViewControllerProtocol.swift */; };
 		474713F428997A6E00C517EE /* WheatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474713F328997A6E00C517EE /* WheatherViewController.swift */; };
 		474713F728997DB900C517EE /* WheatherDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474713F628997DB900C517EE /* WheatherDayCell.swift */; };
@@ -78,6 +84,12 @@
 		47040055289D994B002C95A4 /* FactModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FactModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		47040056289D994B002C95A4 /* CityModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CityModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		47040057289D994B002C95A4 /* CityModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CityModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		4713D86128A5520E0019A083 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		4713D86328A563740019A083 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4713D86628A566620019A083 /* SettingsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewCell.swift; sourceTree = "<group>"; };
+		4713D86828A56B910019A083 /* GlobalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalViewController.swift; sourceTree = "<group>"; };
+		4713D86A28A60BBE0019A083 /* SetSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetSettingsController.swift; sourceTree = "<group>"; };
+		4713D86D28A63E7A0019A083 /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		474713F128992A9200C517EE /* ViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerProtocol.swift; sourceTree = "<group>"; };
 		474713F328997A6E00C517EE /* WheatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheatherViewController.swift; sourceTree = "<group>"; };
 		474713F628997DB900C517EE /* WheatherDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheatherDayCell.swift; sourceTree = "<group>"; };
@@ -161,6 +173,25 @@
 				47DF9F7628A20C4A005A0108 /* DayPartsModel+CoreDataProperties.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4713D86528A564F50019A083 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				4713D86328A563740019A083 /* SettingsView.swift */,
+				4713D86628A566620019A083 /* SettingsViewCell.swift */,
+				4713D86A28A60BBE0019A083 /* SetSettingsController.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		4713D86C28A63E510019A083 /* PageView */ = {
+			isa = PBXGroup;
+			children = (
+				47FD1B88289509690039CE46 /* PageViewCoordinator.swift */,
+				47FD1B752894FF9E0039CE46 /* PageViewController.swift */,
+			);
+			path = PageView;
 			sourceTree = "<group>";
 		};
 		474713F528997D9100C517EE /* WheatherViewControler */ = {
@@ -332,10 +363,11 @@
 		47FD1B772895000E0039CE46 /* PageView */ = {
 			isa = PBXGroup;
 			children = (
+				4713D86828A56B910019A083 /* GlobalViewController.swift */,
+				4713D86D28A63E7A0019A083 /* PreviewController.swift */,
 				47FD1B7A289505540039CE46 /* ViewControllers */,
-				47FD1B752894FF9E0039CE46 /* PageViewController.swift */,
-				47FD1B88289509690039CE46 /* PageViewCoordinator.swift */,
-				4757323528A4401F00053B08 /* FoundViewController.swift */,
+				4713D86C28A63E510019A083 /* PageView */,
+				4713D86528A564F50019A083 /* SettingsView */,
 			);
 			path = PageView;
 			sourceTree = "<group>";
@@ -343,6 +375,7 @@
 		47FD1B7A289505540039CE46 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4757323528A4401F00053B08 /* FoundViewController.swift */,
 				474713F128992A9200C517EE /* ViewControllerProtocol.swift */,
 				47FD1B782895054F0039CE46 /* EmptyViewController.swift */,
 				474713F528997D9100C517EE /* WheatherViewControler */,
@@ -391,6 +424,7 @@
 				47DF9F7128A207E7005A0108 /* DayPart.swift */,
 				47DFA79528A0387F0050BCCC /* Parts.swift */,
 				474713FF2899887400C517EE /* WheatherEnum.swift */,
+				4713D86128A5520E0019A083 /* Settings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -491,6 +525,7 @@
 				4757322D28A40D4A00053B08 /* ForecastForDayPartsCell.swift in Sources */,
 				47DF9F7928A20C4A005A0108 /* DayPartsModel+CoreDataProperties.swift in Sources */,
 				4757323428A423F600053B08 /* ForecastForDaySunAndMoonItemCell.swift in Sources */,
+				4713D86728A566620019A083 /* SettingsViewCell.swift in Sources */,
 				47FD1B8B289511E00039CE46 /* ConstValue.swift in Sources */,
 				47DFA78E289FAEDD0050BCCC /* WheatherDayHeader.swift in Sources */,
 				4757323028A41C6500053B08 /* ForecastForDaySunAndMoonItem.swift in Sources */,
@@ -504,8 +539,11 @@
 				47040060289D994B002C95A4 /* CityModel+CoreDataClass.swift in Sources */,
 				474713F928997E3600C517EE /* WheatherToDayInfoCell.swift in Sources */,
 				47DF9F8A28A2B213005A0108 /* GraphicView.swift in Sources */,
+				4713D86428A563740019A083 /* SettingsView.swift in Sources */,
+				4713D86228A5520E0019A083 /* Settings.swift in Sources */,
 				47FD1B9A289581AE0039CE46 /* Wheather.swift in Sources */,
 				474713F728997DB900C517EE /* WheatherDayCell.swift in Sources */,
+				4713D86B28A60BBE0019A083 /* SetSettingsController.swift in Sources */,
 				4704005E289D994B002C95A4 /* FactModel+CoreDataClass.swift in Sources */,
 				4757323228A41CC500053B08 /* ForecastForDaySunAndMoonSeparator.swift in Sources */,
 				47FD1B5B2894F3810039CE46 /* OnBoardingViewController.swift in Sources */,
@@ -515,6 +553,7 @@
 				474714002899887400C517EE /* WheatherEnum.swift in Sources */,
 				47DF9F7828A20C4A005A0108 /* DayPartsModel+CoreDataClass.swift in Sources */,
 				4704005F289D994B002C95A4 /* FactModel+CoreDataProperties.swift in Sources */,
+				4713D86928A56B910019A083 /* GlobalViewController.swift in Sources */,
 				474713F228992A9200C517EE /* ViewControllerProtocol.swift in Sources */,
 				47FD1B6E2894F84C0039CE46 /* ViewControllerFactory.swift in Sources */,
 				4704005C289D994B002C95A4 /* HourModel+CoreDataClass.swift in Sources */,
@@ -528,6 +567,7 @@
 				4747140528999EE700C517EE /* Forecast.swift in Sources */,
 				4757322328A37B8400053B08 /* ForecastForDayDays.swift in Sources */,
 				47D0B1D8289CCCC400D4BDE6 /* WheatherModel.xcdatamodeld in Sources */,
+				4713D86E28A63E7A0019A083 /* PreviewController.swift in Sources */,
 				4757322028A3629B00053B08 /* ForecastForDay.swift in Sources */,
 				47FD1B7F289506630039CE46 /* CoreDataProtocol.swift in Sources */,
 				47DF9F8E28A2D610005A0108 /* DetailsGraphicCell.swift in Sources */,
@@ -677,6 +717,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9888QYUA9Y;
@@ -687,7 +728,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -707,6 +748,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9888QYUA9Y;
@@ -717,7 +759,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

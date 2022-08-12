@@ -129,13 +129,18 @@ extension NetworkService: NetworkServiceProtocol {
             guard let addressDetails = geocoderMetaData["AddressDetails"] as? [String: Any] else { return nil }
             guard let country = addressDetails["Country"] as? [String: Any] else { return nil }
             guard let administrativeArea = country["AdministrativeArea"] as? [String: Any]  else { return nil }
-            guard let subAdministrativeArea = administrativeArea["SubAdministrativeArea"] as? [String: Any]  else { return nil }
+            let subAdministrativeArea = administrativeArea["SubAdministrativeArea"] as? [String: Any]
             
             var localityName = ""
-            if let locality = subAdministrativeArea["Locality"] as? [String: Any]  {
-                localityName = locality["LocalityName"] as? String ?? ""
+            
+            if let subAdministrativeArea = subAdministrativeArea {
+                if let locality = subAdministrativeArea["Locality"] as? [String: Any]  {
+                    localityName = locality["LocalityName"] as? String ?? ""
+                } else {
+                    localityName = subAdministrativeArea["SubAdministrativeAreaName"] as? String  ?? ""
+                }
             } else {
-                localityName = subAdministrativeArea["SubAdministrativeAreaName"] as? String  ?? ""
+                localityName = administrativeArea["AdministrativeAreaName"] as? String ?? ""
             }
             
             if localityName == "" {
@@ -143,7 +148,8 @@ extension NetworkService: NetworkServiceProtocol {
             }
             
             guard let Point = geoObject["Point"] as? [String: Any]  else { return nil }
-            guard let id = geoObject["description"] as? String else { return nil }
+            guard var id = geoObject["description"] as? String else { return nil }
+            id = (id.contains(localityName) ? id : localityName + ", " + id)
             guard let countryName = country["CountryName"] as? String else { return nil }
             guard let Pos = Point["pos"] as? String  else { return nil }
             
@@ -200,7 +206,7 @@ extension NetworkService: NetworkServiceProtocol {
                 
                 guard let Point = geoObject["Point"] as? [String: Any]  else { return }
                 guard var id = geoObject["description"] as? String else { return }
-                id = id + " / " + localityName
+                id = (id.contains(localityName) ? id : localityName + ", " + id)
                 guard let countryName = country["CountryName"] as? String else { return }
                 guard let Pos = Point["pos"] as? String  else { return }
                 

@@ -108,7 +108,7 @@ extension WheatherToDayHourCell: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ConstValue.hourWidth, height: ConstValue.hourHeight)
+        return CGSize(width: 50, height: 90)
     }
     
 }

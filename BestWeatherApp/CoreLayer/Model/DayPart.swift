@@ -11,12 +11,33 @@ class DayPart: Decodable, Storable {
    
     /// Средняя температура
     var temp: Int = 0
+    var tempString: String {
+        if Settings.sharedSettings.temp == .celsius {
+            return String(temp) + "º"
+        } else {
+            return String(Int(Double(temp) * 1.8) + 32)
+        }
+    }
     
     ///  Минимальная температура
     var tempMin: Int = 0
+    var tempMinString: String {
+        if Settings.sharedSettings.temp == .celsius {
+            return String(tempMin) + "º"
+        } else {
+            return String(Int(Double(tempMin) * 1.8) + 32)
+        }
+    }
     
     /// Ощущаемая температура
     var feelsLike: Int = 0
+    var feelsLikeString: String {
+        if Settings.sharedSettings.temp == .celsius {
+            return String(temp) + "º"
+        } else {
+            return String(Int(Double(temp) * 1.8) + 32) + "ºF"
+        }
+    }
     
     /// Описание погоды
     var condition: String = ""
@@ -48,9 +69,23 @@ class DayPart: Decodable, Storable {
     
     /// Скорость ветра м/с
     var windSpeed: Double = 0
+    var windSpeedString: String {
+        if Settings.sharedSettings.speed == .metric {
+            return String(windSpeed) + " m/s"
+        } else {
+            return String(Int(windSpeed * 1.09361)) + " ya/s"
+        }
+    }
     
     /// Скорость порывов ветра м/с
     var windGust: Double = 0
+    var windGustString: String {
+        if Settings.sharedSettings.speed == .metric {
+            return String(windGust) + " m/s"
+        } else {
+            return String(Int(windGust * 1.09361)) + " ya/s"
+        }
+    }
     
     /// Направление ветра код
     var windDirKey: String = ""

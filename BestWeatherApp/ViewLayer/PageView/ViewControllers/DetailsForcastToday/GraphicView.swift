@@ -78,10 +78,10 @@ class GraphicView: UIView {
         while index < forecast.count {
             
             let hour = forecast[index].hour
-            labelTemp[indexLabel].text = String(hour.temp) + "º"
+            labelTemp[indexLabel].text = hour.tempString
             image[indexLabel].image = hour.wheatherIcon.getImage()
             humiditylabel[indexLabel].text = String(hour.humidity) + "%"
-            timelabel[indexLabel].text =  (hour.hour.count == 1 ? "0" + hour.hour : hour.hour) + ".00"
+            timelabel[indexLabel].text = hour.hourString
             graphPoints.append(hour)
             indexLabel += 1
             index += 3

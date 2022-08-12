@@ -8,7 +8,7 @@
 import Foundation
 
 class Forecast: Decodable, Storable {
-
+    
     /// Дата формат гггг-мм-дд
     var date: String = ""
     
@@ -20,9 +20,30 @@ class Forecast: Decodable, Storable {
     
     /// Время рассвета
     var sunrise: String = ""
+    var sunriseString: String {
+        if Settings.sharedSettings.time == .full {
+            return sunrise
+        } else {
+            let timeArr = sunrise.components(separatedBy: ":")
+            let hour = Int(timeArr[0]) ?? 0
+            let minute = timeArr[1]
+            return String(hour > 12 ? hour - 12 : hour) + ":" + minute + " p.m."
+        }
+    }
+    
     
     /// Время заката
     var sunset: String = ""
+    var sunsetString: String {
+        if Settings.sharedSettings.time == .full {
+            return sunset
+        } else {
+            let timeArr = sunset.components(separatedBy: ":")
+            let hour = Int(timeArr[0]) ?? 0
+            let minute = timeArr[1]
+            return String(hour > 12 ? hour - 12 : hour) + ":" + minute + " p.m."
+        }
+    }
     
     ///Фаза луны код
     var moonCode: Int = 0

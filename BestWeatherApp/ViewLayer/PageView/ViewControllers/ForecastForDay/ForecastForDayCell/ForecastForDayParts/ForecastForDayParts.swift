@@ -88,13 +88,13 @@ class ForecastForDayParts: UITableViewCell {
     func setupContent(part: DayPart, partName: String) {
         self.partName = partName
         self.wheatherIcon.image = part.wheatherIcon.getImage()
-        self.tempLabel.text = String(part.temp) + "º"
+        self.tempLabel.text = part.tempString
         self.conditionLabel.text = part.wheatherIcon.rawValue
         
         self.parts.removeAll()
         
-        self.parts.append(("hot", "По ощущениям", String(part.feelsLike) + "º"))
-        self.parts.append(("wind", "Ветер", String(part.windSpeed) + " m\\s " + part.windDir.rawValue))
+        self.parts.append(("hot", "По ощущениям", part.feelsLikeString))
+        self.parts.append(("wind", "Ветер", part.windSpeedString + " " + part.windDir.rawValue))
         self.parts.append(("showers", "Дождь", part.precStrenght.rawValue))
         self.parts.append(("overcast", "Облачность", part.cloudness.rawValue))
         

@@ -101,10 +101,10 @@ enum PrecType: String {
 
 enum precStrenght: String {
     case noPrec = "Без осадков"
-    case lightRain = "Слабый дождь/слабый снег"
-    case rain = "Дождь/снег"
-    case heavyRain = "Сильный дождь/сильный снег"
-    case veryHeavyRain = "Сильный ливень/очень сильный снег"
+    case lightRain = "Слабый дождь"
+    case rain = "Дождь"
+    case heavyRain = "Сильный дождь"
+    case veryHeavyRain = "Сильный ливень"
 }
 
 enum Сloudness: String {
