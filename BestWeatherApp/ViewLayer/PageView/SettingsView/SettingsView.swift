@@ -34,6 +34,10 @@ class SettingsView: UIViewController {
         tableView.delegate = self
         tableView.register(SettingsViewCell.self, forCellReuseIdentifier: SettingsViewCell.identifire)
         
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(clouseMenu))
+        swipe.direction = [.left]
+        view.addGestureRecognizer(swipe)
+        
         NSLayoutConstraint.activate([
             image.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             image.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 35),
@@ -64,6 +68,12 @@ class SettingsView: UIViewController {
     @objc func updateTable() {
         tableView.reloadData()
         tableView.refreshControl?.endRefreshing()
+    }
+    
+    @objc func clouseMenu() {
+        if let parent = parent as? GlobalViewController {
+            parent.toggleMenu()
+        }
     }
     
 }
