@@ -11,7 +11,7 @@ import CoreLocation
 class OnBoardingViewController: UIViewController {
     
     var callback: (() -> Void)
-    weak var coordinator: PageViewCoordinator?
+    weak var coordinator: LocationCoordinator?
     
     private lazy var image = UIImageView.getImage("onBoardingImage")
     

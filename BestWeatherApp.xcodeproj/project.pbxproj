@@ -31,6 +31,7 @@
 		4747140528999EE700C517EE /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747140428999EE700C517EE /* Forecast.swift */; };
 		4747140728999F3000C517EE /* Fact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747140628999F3000C517EE /* Fact.swift */; };
 		4747140928999F6200C517EE /* Hour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4747140828999F6200C517EE /* Hour.swift */; };
+		4750E3B228B14874000BE79C /* LocationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4750E3B128B14874000BE79C /* LocationCoordinator.swift */; };
 		4757322028A3629B00053B08 /* ForecastForDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4757321F28A3629B00053B08 /* ForecastForDay.swift */; };
 		4757322328A37B8400053B08 /* ForecastForDayDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4757322228A37B8400053B08 /* ForecastForDayDays.swift */; };
 		4757322528A37C1400053B08 /* ForecastForDayParts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4757322428A37C1400053B08 /* ForecastForDayParts.swift */; };
@@ -56,7 +57,6 @@
 		47DFA793289FC5B60050BCCC /* WheatherToDayHourItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFA792289FC5B60050BCCC /* WheatherToDayHourItem.swift */; };
 		47DFA79628A0387F0050BCCC /* Parts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFA79528A0387F0050BCCC /* Parts.swift */; };
 		47FD1B572894F3810039CE46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD1B562894F3810039CE46 /* AppDelegate.swift */; };
-		47FD1B592894F3810039CE46 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD1B582894F3810039CE46 /* SceneDelegate.swift */; };
 		47FD1B5B2894F3810039CE46 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD1B5A2894F3810039CE46 /* OnBoardingViewController.swift */; };
 		47FD1B632894F3830039CE46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47FD1B622894F3830039CE46 /* Assets.xcassets */; };
 		47FD1B662894F3830039CE46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47FD1B642894F3830039CE46 /* LaunchScreen.storyboard */; };
@@ -99,6 +99,7 @@
 		4747140428999EE700C517EE /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 		4747140628999F3000C517EE /* Fact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fact.swift; sourceTree = "<group>"; };
 		4747140828999F6200C517EE /* Hour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hour.swift; sourceTree = "<group>"; };
+		4750E3B128B14874000BE79C /* LocationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCoordinator.swift; sourceTree = "<group>"; };
 		4757321F28A3629B00053B08 /* ForecastForDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastForDay.swift; sourceTree = "<group>"; };
 		4757322228A37B8400053B08 /* ForecastForDayDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastForDayDays.swift; sourceTree = "<group>"; };
 		4757322428A37C1400053B08 /* ForecastForDayParts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastForDayParts.swift; sourceTree = "<group>"; };
@@ -125,7 +126,6 @@
 		47DFA79528A0387F0050BCCC /* Parts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parts.swift; sourceTree = "<group>"; };
 		47FD1B532894F3810039CE46 /* BestWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47FD1B562894F3810039CE46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		47FD1B582894F3810039CE46 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		47FD1B5A2894F3810039CE46 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
 		47FD1B622894F3830039CE46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47FD1B652894F3830039CE46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -213,6 +213,14 @@
 			path = WheatherViewCell;
 			sourceTree = "<group>";
 		};
+		4750E3B028B1474C000BE79C /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				4750E3B128B14874000BE79C /* LocationCoordinator.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		4757321E28A3623700053B08 /* ForecastForDay */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,6 +272,7 @@
 		47DF9F7D28A22762005A0108 /* CoreLayer */ = {
 			isa = PBXGroup;
 			children = (
+				4750E3B028B1474C000BE79C /* Location */,
 				47FD1B91289531900039CE46 /* Model */,
 				47FD1B9B2895CA0A0039CE46 /* Network */,
 				47FD1B7B289505DD0039CE46 /* CoreDataBase */,
@@ -331,7 +340,6 @@
 			isa = PBXGroup;
 			children = (
 				47FD1B562894F3810039CE46 /* AppDelegate.swift */,
-				47FD1B582894F3810039CE46 /* SceneDelegate.swift */,
 				47FD1B642894F3830039CE46 /* LaunchScreen.storyboard */,
 				47FD1B6F2894F8ED0039CE46 /* General */,
 				47DF9F7D28A22762005A0108 /* CoreLayer */,
@@ -568,6 +576,7 @@
 				4757322328A37B8400053B08 /* ForecastForDayDays.swift in Sources */,
 				47D0B1D8289CCCC400D4BDE6 /* WheatherModel.xcdatamodeld in Sources */,
 				4713D86E28A63E7A0019A083 /* PreviewController.swift in Sources */,
+				4750E3B228B14874000BE79C /* LocationCoordinator.swift in Sources */,
 				4757322028A3629B00053B08 /* ForecastForDay.swift in Sources */,
 				47FD1B7F289506630039CE46 /* CoreDataProtocol.swift in Sources */,
 				47DF9F8E28A2D610005A0108 /* DetailsGraphicCell.swift in Sources */,
@@ -580,7 +589,6 @@
 				47DFA790289FAFCF0050BCCC /* WheatherToDayHourHeader.swift in Sources */,
 				4704005D289D994B002C95A4 /* HourModel+CoreDataProperties.swift in Sources */,
 				47FD1B93289531B40039CE46 /* City.swift in Sources */,
-				47FD1B592894F3810039CE46 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

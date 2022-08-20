@@ -10,38 +10,36 @@ import UIKit
 
 class GlobalViewController: UIViewController {
     
-    var pageController: PageViewController!
+    var pageController: PageViewController
     var settingsController: SettingsView!
     var isMove: Bool = false
-    var preview: PreviewController!
+    
+    init(citys: [City], coreDataCoordinator: CoreDataProtocol) {
+       
+        
+        self.pageController = PageViewController(citys: citys, coreDataCoordinator: coreDataCoordinator)
+        super.init(nibName: nil, bundle: nil)
+        
+        pageController.globalViewController = self
+        pageController.view.frame = view.frame
+        
+        view.addSubview(pageController.view)
+        addChild(pageController)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
-        configurePreview()
+        view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configurePageViewControler()
-    }
-    
-    func configurePreview() {
-        let previewController = PreviewController()
-        preview = previewController
-        view.addSubview(previewController.view)
-        preview.view.frame = view.frame
-        addChild(previewController)
-    }
-    
-    func configurePageViewControler() {
-        if pageController == nil {
-            let pageViewController = PageViewController()
-            pageViewController.globalViewController = self
-            pageController = pageViewController
-            view.insertSubview(pageViewController.view, at: 0)
-            pageViewController.view.frame = view.frame
-            addChild(pageViewController)
-        }
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
     }
     
     func configureSettingsViewControler() {
@@ -81,7 +79,6 @@ class GlobalViewController: UIViewController {
                            initialSpringVelocity: 0,
                            options: .curveEaseInOut) {
                 self.pageController.view.frame.origin.x = 0
-                print(self.pageController.view.frame)
             } completion: { finished in
                 
             }

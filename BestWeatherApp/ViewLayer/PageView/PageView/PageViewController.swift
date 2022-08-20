@@ -12,8 +12,10 @@ final class PageViewController: UIPageViewController {
     
     let coordinator: PageViewCoordinator
     var isAppear: Bool = false
+    private var isFirstAppear = true
     var citys = [City]()
     var globalViewController: GlobalViewController?
+    
     lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.toAutoLayout()
@@ -24,22 +26,21 @@ final class PageViewController: UIPageViewController {
         return control
     }()
     
-    init() {
-        self.coordinator = PageViewCoordinator()
+    init(citys: [City], coreDataCoordinator: CoreDataProtocol) {
+        self.coordinator = PageViewCoordinator(coreDataCoordinator: coreDataCoordinator)
+        self.citys = citys
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         coordinator.pageViews = self
         dataSource = self
         delegate = self
-        coordinator.loadingViewControllers()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         view.addSubviews(pageControl)
-        
+            
         navigationItem.largeTitleDisplayMode = .always
-        setViewControllers([coordinator.getViewController(city: citys.first, index: 0)], direction: .forward, animated: true)
         
         let leftButton = UIBarButtonItem(image: UIImage(named: "set"),
                                          landscapeImagePhone: UIImage(named: "set"),
@@ -59,11 +60,27 @@ final class PageViewController: UIPageViewController {
             pageControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
             pageControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -30)
         ])
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         isAppear = true
+        if isFirstAppear {
+            isFirstAppear = false
+            pageControl.numberOfPages = citys.count
+            pageControl.currentPage = 0
+            
+            if view.frame != .zero {
+                setViewControllers([coordinator.getViewController(city: citys.first, index: 0)], direction: .forward, animated: true)
+                if let city = citys.first {
+                    parent?.title = city.name + ", " + city.country
+                }
+                coordinator.GetGeoStatus()
+            }
+        } else if !citys.isEmpty {
+            updateCity(citys[pageControl.currentPage])
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

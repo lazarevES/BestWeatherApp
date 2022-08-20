@@ -9,125 +9,42 @@ import Foundation
 import UIKit
 import CoreLocation
 
-final class PageViewCoordinator: NSObject, CLLocationManagerDelegate {
+final class PageViewCoordinator {
     
-    let locationManager = CLLocationManager()
-    private var status: StatusApp
+    private let locationCoordinator = LocationCoordinator()
     private var dataBaseCoordinator: CoreDataProtocol
     private var networkService: NetworkServiceProtocol
     weak var pageViews: PageViewController?
-    private var onBoardingIsAppear = false
     
-    override init() {
+    init(coreDataCoordinator: CoreDataProtocol) {
         
-        if locationManager.authorizationStatus != .denied
-            && locationManager.authorizationStatus != .notDetermined {
-            self.status = .geoAccept
-        } else if locationManager.authorizationStatus == .notDetermined {
-            self.status = .onBoard
-        } else {
-            self.status = .geoReject
-        }
-        
-        self.dataBaseCoordinator = CoreDataCoordinator.CreateDataBase()
+        self.dataBaseCoordinator = coreDataCoordinator
         self.networkService = NetworkService()
         
-        super.init()
-        
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(foundCityLocation(_:)),
+                                               name: .foundCityLocation,
+                                               object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
         
     func GetGeoStatus() {
-        
-        switch status {
-        case .onBoard:
-            
-            let onBoarding = OnBoardingViewController() { [weak self] in
-                if let self = self {
-                    if self.locationManager.authorizationStatus == .denied
-                        || self.locationManager.authorizationStatus == .notDetermined {
-                        self.status = .geoReject
-                    }
-                }
-            }
-            onBoarding.coordinator = self
-            pageViews?.navigationController?.present(onBoarding, animated: true)
-            self.onBoardingIsAppear = true
-            
-        case .geoReject:
-            return
-        case .geoAccept:
-            locationManager.startUpdatingLocation()
+        if locationCoordinator.GetGeoStatus() == true {
+            locationCoordinator.GetGeoPosition()
         }
     }
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-                
-        if self.locationManager.authorizationStatus == .denied {
-            self.status = .geoReject
-        } else if self.locationManager.authorizationStatus == .notDetermined {
-            self.status = .onBoard
-        } else {
-            self.status = .geoAccept
-        }
-        
-        if onBoardingIsAppear {
-            self.pageViews?.navigationController?.dismiss(animated: true)
-            self.onBoardingIsAppear = false
-            self.GetGeoStatus()
-        }
-        
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if locations.count == 0 {
-            return
-        }
-        locationManager.stopUpdatingLocation()
-        let coordinates = locations[0]
-        DispatchQueue.global().async {
-            self.foundCityData(location: coordinates)
-        }
-    }
-    
-    func loadingViewControllers() {
-                
-        let task = DispatchQueue.global(qos: .background)
-        task.async {
-            self.dataBaseCoordinator.fetchAll { result in
-                switch result {
-                case .success(let CitysM):
-                    
-                    let citys = CitysM.map { city -> City in
-                        city.isNew = false
-                        return city
-                    }
-                    
-                    if citys.isEmpty {
-                        break
-                    }
-                   
-                    if let pageViews = self.pageViews {
-                        citys.forEach { city in
-                            
-                            if !pageViews.citys.contains(city) {
-                                pageViews.citys.append(city)
-                            }
-                        }
-                        pageViews.activeViewController(citys.first!)
-                    }
-    
-                case .failure(_):
-                    break
-                }
-                self.GetGeoStatus()
+    @objc func foundCityLocation(_ notification: NSNotification) {
+        if let location = notification.userInfo?["coordinates"] as? CLLocation {
+            DispatchQueue.global().async {
+                self.foundCityData(location: location)
             }
         }
-        
-        task.resume()
     }
-    
+        
     func foundCityData(location: CLLocation) {
         
         networkService.request(location: location) {[weak self] result in

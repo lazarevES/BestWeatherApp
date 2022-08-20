@@ -6,10 +6,10 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>yandex.ru</key>
-			<string>yandex.ru</string>
 			<key>geocode-maps.yandex.ru</key>
 			<string></string>
+			<key>yandex.ru</key>
+			<string>yandex.ru</string>
 		</dict>
 	</dict>
 	<key>UIAppFonts</key>

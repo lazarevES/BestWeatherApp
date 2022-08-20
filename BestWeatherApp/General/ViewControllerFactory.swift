@@ -22,8 +22,7 @@ final class ViewControllerFactory {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.white
         
-        let viewController = GlobalViewController()
-        viewController.view.backgroundColor = .white
+        let viewController = PreviewController()
         
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.titleTextAttributes = [ .foregroundColor: UIColor.black]

@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+extension NSNotification.Name {
+    static let foundCityLocation = NSNotification.Name("foundCityLocation")
+}
+
 extension String {
     
     static let empty = ""
