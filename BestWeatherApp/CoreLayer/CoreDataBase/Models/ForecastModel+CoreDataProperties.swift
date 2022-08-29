@@ -31,3 +31,7 @@ extension ForecastModel {
 extension ForecastModel : Identifiable {
 
 }
+
+extension ForecastModel : Storable {
+
+}

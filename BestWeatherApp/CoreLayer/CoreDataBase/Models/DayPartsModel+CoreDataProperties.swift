@@ -35,3 +35,7 @@ extension DayPartsModel {
 extension DayPartsModel : Identifiable {
 
 }
+
+extension DayPartsModel : Storable {
+
+}

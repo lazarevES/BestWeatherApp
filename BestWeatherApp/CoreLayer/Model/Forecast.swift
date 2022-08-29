@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Forecast: Decodable, Storable {
+class Forecast: Decodable, ValidateModel {
     
     /// Дата формат гггг-мм-дд
     var date: String = ""
@@ -83,7 +83,11 @@ class Forecast: Decodable, Storable {
             "sunrise": self.sunrise,
             "sunset": self.sunset,
             "moonCode": self.moonCode,
-            "dateTs": self.dateTs
+            "dateTs": self.dateTs,
+            "hours": self.hours.map({ hour in
+                hour.keyedValues
+            }),
+            "dayparts": [(self.dayForecast?.keyedValues ?? [:]), (self.nightForecast?.keyedValues ?? [:])]
         ]
     }
     

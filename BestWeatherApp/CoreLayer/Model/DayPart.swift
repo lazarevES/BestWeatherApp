@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DayPart: Decodable, Storable {
+class DayPart: Decodable, ValidateModel {
    
     /// Средняя температура
     var temp: Int = 0

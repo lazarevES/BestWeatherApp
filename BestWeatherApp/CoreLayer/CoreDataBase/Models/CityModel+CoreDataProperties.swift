@@ -28,3 +28,7 @@ extension CityModel {
 extension CityModel : Identifiable {
 
 }
+
+extension CityModel : Storable {
+
+}

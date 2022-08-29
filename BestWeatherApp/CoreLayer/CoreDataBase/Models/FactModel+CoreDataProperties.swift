@@ -39,3 +39,7 @@ extension FactModel {
 extension FactModel : Identifiable {
 
 }
+
+extension FactModel : Storable {
+
+}

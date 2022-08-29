@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Fact: Decodable, Storable {
+class Fact: Decodable, ValidateModel {
     
     /// Температура в С
     var temp: Int = 0

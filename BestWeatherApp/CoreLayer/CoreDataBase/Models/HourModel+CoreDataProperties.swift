@@ -39,3 +39,7 @@ extension HourModel {
 extension HourModel : Identifiable {
 
 }
+
+extension HourModel : Storable {
+
+}

@@ -25,3 +25,7 @@ extension WheatherModel {
 extension WheatherModel : Identifiable {
 
 }
+
+extension WheatherModel : Storable {
+
+}

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Hour: Decodable, Storable {
+class Hour: Decodable, ValidateModel {
     
     /// Час
     var hour: String = ""

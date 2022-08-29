@@ -17,10 +17,30 @@ class PreviewController: UIViewController {
     private lazy var onBoardingImage = UIImageView.getImage("onBoardingImage")
     
     private var locationManager = LocationCoordinator()
-    private var dataBaseCoordinator = CoreDataCoordinator.CreateDataBase()
+    private var dataBaseCoordinator: CoreDataCoordinator
     private var citys = [City]()
     private var geoStatus = false
     private var dataStatus = false
+    
+    init() {
+        
+        let bundle = Bundle.main
+        guard let url = bundle.url(forResource: "WheatherModel", withExtension: "momd") else {
+            fatalError("Can't find DatabaseDemo.xcdatamodelId in main Bundle")
+        }
+        switch CoreDataCoordinator.create(url: url) {
+        case .success(let database):
+            dataBaseCoordinator = database
+        case .failure(let error):
+            fatalError("Unable to create CoreData Database. Error - \(error.localizedDescription)")
+        }
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,33 +94,30 @@ class PreviewController: UIViewController {
     func complitionPreview() {
         if geoStatus && dataStatus {
             let globalViewController = GlobalViewController(citys: citys, coreDataCoordinator: dataBaseCoordinator)
-            navigationController?.setViewControllers([globalViewController], animated: true)
+            guard let window = (UIApplication.shared.delegate as? AppDelegate)?.window else { return }
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve) {
+                window.rootViewController = globalViewController
+            }
         }
     }
     
     func loadingCitys() {
-                
-        let task = DispatchQueue.global(qos: .background)
-        task.async {
-            self.dataBaseCoordinator.fetchAll { result in
-                switch result {
-                case .success(let CitysM):
-                    
-                    self.citys = CitysM.map { city -> City in
-                        city.isNew = false
-                        return city
-                    }
-                    
-                case .failure(_):
-                    break
+        
+        self.dataBaseCoordinator.fetchAll(CityModel.self) { result in
+            switch result {
+            case .success(let CitysM):
+                self.citys = CitysM.map { cityModel -> City in
+                    let city = City(cityModel)
+                    city.isNew = false
+                    return city
                 }
                 
-                self.dataStatus = true
-                self.complitionPreview()
+            case .failure(_):
+                break
             }
+            
+            self.dataStatus = true
+            self.complitionPreview()
         }
-        
-        task.resume()
     }
-        
 }

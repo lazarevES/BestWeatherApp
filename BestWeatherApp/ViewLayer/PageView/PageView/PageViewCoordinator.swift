@@ -110,9 +110,9 @@ final class PageViewCoordinator {
     
     func saveToDataBase(city: City) {
         if city.isNew {
-            dataBaseCoordinator.create(city) { [weak self] result in
+            dataBaseCoordinator.create(CityModel.self, keyedValues: [city.keyedValues]) { [weak self] result in
                 switch result {
-                case .success(let city):
+                case .success(_):
                     city.isNew.toggle()
                     DispatchQueue.main.async {
                         self?.pageViews?.updateCity(city)
@@ -123,9 +123,9 @@ final class PageViewCoordinator {
             }
         } else {
             let predicate = NSPredicate(format: "id == %@", argumentArray: [city.id])
-            dataBaseCoordinator.update(city, predicate: predicate) { [weak self] result in
+            dataBaseCoordinator.update(CityModel.self, predicate: predicate, keyedValues: city.keyedValues) { [weak self] result in
                 switch result {
-                case .success(let city):
+                case .success(_):
                     DispatchQueue.main.async {
                         self?.pageViews?.updateCity(city)
                     }
@@ -149,7 +149,7 @@ final class PageViewCoordinator {
     
     func removeFromDatabase(city: City) {
         let predicate = NSPredicate(format: "id == %@", argumentArray: [city.id])
-        dataBaseCoordinator.delete(predicate: predicate) { result in
+        dataBaseCoordinator.delete(CityModel.self, predicate: predicate) { result in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)

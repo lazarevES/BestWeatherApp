@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol Storable {
+protocol ValidateModel {
     var keyedValues: [String: Any] { get }
 }
 
-class City: Storable {
+class City: ValidateModel {
     
     var id: String
     var name: String
@@ -34,6 +34,7 @@ class City: Storable {
             "country": self.country,
             "lat": self.lat,
             "lon": self.lon,
+            "wheather": self.wheather?.keyedValues ?? []
         ]
     }
     

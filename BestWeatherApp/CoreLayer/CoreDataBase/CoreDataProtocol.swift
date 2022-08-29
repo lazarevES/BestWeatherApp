@@ -8,6 +8,8 @@
 import Foundation
 import CoreData
 
+protocol Storable {}
+
 enum DatabaseError: Error {
     //Невозможно добавить хранилище.
     case store(model: String)
@@ -22,18 +24,16 @@ enum DatabaseError: Error {
 }
 
 protocol CoreDataProtocol {
-    
-    func create(_ city: City, completion: @escaping (Result<City, DatabaseError>) -> Void)
-
-    func update(_ city: City, predicate: NSPredicate?, completion: @escaping (Result<City, DatabaseError>) -> Void)
-
-    func delete(predicate: NSPredicate?, completion: @escaping (Result<[City], DatabaseError>) -> Void)
-
-    func deleteAll(completion: @escaping (Result<[City], DatabaseError>) -> Void)
-
-    func fetch(predicate: NSPredicate?, completion: @escaping (Result<[City], DatabaseError>) -> Void)
-    
-    func fetchModel(predicate: NSPredicate?, completion: @escaping (Result<[CityModel], DatabaseError>) -> Void)
-
-    func fetchAll(completion: @escaping (Result<[City], DatabaseError>) -> Void)
+    /// Создание объекта заданного типа.
+    func create<T: Storable>(_ model: T.Type, keyedValues: [[String: Any]], completion: @escaping (Result<[T], DatabaseError>) -> Void)
+    /// Обновление объекта заданного типа с помощью предиката.
+    func update<T: Storable>(_ model: T.Type, predicate: NSPredicate?, keyedValues: [String: Any], completion: @escaping (Result<[T], DatabaseError>) -> Void)
+    /// Удаление объектов заданного типа с помощью предиката.
+    func delete<T: Storable>(_ model: T.Type, predicate: NSPredicate?, completion: @escaping (Result<[T], DatabaseError>) -> Void)
+    /// Удаление всех объектов заданного типа.
+    func deleteAll<T: Storable>(_ model: T.Type, completion: @escaping (Result<[T], DatabaseError>) -> Void)
+    /// Получение объектов заданного типа с помощью предиката.
+    func fetch<T: Storable>(_ model: T.Type, predicate: NSPredicate?, completion: @escaping (Result<[T], DatabaseError>) -> Void)
+    /// Получение объектов заданного типа.
+    func fetchAll<T: Storable>(_ model: T.Type, completion: @escaping (Result<[T], DatabaseError>) -> Void)
 }

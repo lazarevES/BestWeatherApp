@@ -7,14 +7,22 @@
 
 import Foundation
 
-class Wheather: Decodable, Storable  {
+class Wheather: Decodable, ValidateModel  {
     
     var fact: Fact?
     var forecasts = [Forecast]()
     var city: City?
     
     
-    var keyedValues = [String: Any]()
+    var keyedValues: [String: Any] {
+        return [
+            "fact": self.fact?.keyedValues ?? [],
+            "forecasts": self.forecasts.map({ forecast in
+                forecast.keyedValues
+            })
+        ]
+    }
+    
     enum CodingKeys: String, CodingKey {
         case forecasts, fact
     }
